@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reforming the System: Parole, Probation, and Rehabilitation</title>
+    <style>
+        /* General Styling */
+        body {
+            background: radial-gradient(circle, #041727, #020c16);
+            color: #0ff;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Holographic Window */
+        .holo-window {
+            width: 80vw;
+            height: 60vh;
+            margin: 10vh auto;
+            padding: 20px;
+            background: rgba(10, 30, 50, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .holo-window::before { /*scanlines*/
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 255, 255, 0.1), transparent 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Light Pipes */
+        .light-pipe {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff, transparent);
+            animation: pulse 2s infinite linear;
+        }
+
+        .pipe-top { top: 0; }
+        .pipe-bottom { bottom: 0; }
+        .pipe-left, .pipe-right {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #0ff, transparent);
+        }
+        .pipe-left { left: 0; }
+        .pipe-right { right: 0; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Enhanced Glitch Effect */
+        .glitch {
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            width: 100%;
+            clip: rect(0, 100%, 0, 0);
+        }
+
+        .glitch::before {
+            top: -2px;
+            left: -2px;
+            color: #ff00ff;
+            animation: glitch 0.2s infinite linear alternate-reverse;
+            transform: skew(-2deg);
+        }
+
+        .glitch::after {
+            top: 2px;
+            left: 2px;
+            color: #00ffff;
+            animation: glitch 0.2s infinite linear alternate;
+            transform: skew(2deg);
+        }
+
+        @keyframes glitch {
+            0% { clip: rect(2px, 9999px, 8px, 0); }
+            10% { clip: rect(4px, 9999px, 2px, 0); }
+            20% { clip: rect(6px, 9999px, 4px, 0); }
+            30% { clip: rect(8px, 9999px, 6px, 0); }
+            40% { clip: rect(2px, 9999px, 6px, 0); }
+            50% { clip: rect(4px, 9999px, 8px, 0); }
+            60% { clip: rect(6px, 9999px, 2px, 0); }
+            70% { clip: rect(8px, 9999px, 4px, 0); }
+            80% { clip: rect(2px, 9999px, 4px, 0); }
+            90% { clip: rect(4px, 9999px, 6px, 0); }
+            100% { clip: rect(6px, 9999px, 8px, 0); }
+        }
+
+        /* Interactive Elements */
+        .content {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0ff;
+            color: #041727;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #00aaff;
+        }
+    </style>
+</head>
+<body>
+    <div class="holo-window">
+        <div class="light-pipe pipe-top"></div>
+        <div class="light-pipe pipe-bottom"></div>
+        <div class="light-pipe pipe-left"></div>
+        <div class="light-pipe pipe-right"></div>
+        
+        <h1 class="glitch" data-text="Reforming the System: Parole, Probation, and Rehabilitation">Reforming the System</h1>
+        
+        <div class="content">
+            <p>Understanding the complexities and flaws in our justice system.</p>
+            <div class="button" onclick="nextSlide()">Next</div>
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+            "The Problem: Systemic Failures and Bias in Parole Decisions.",
+            "How Data Mishandling Amplifies Inequity in the System.",
+            "The War on Drugs: A Failed, Expensive, and Destructive Strategy.",
+            "Mental Health and Substance Use: Unaddressed Overlapping Challenges.",
+            "The Human Cost: Impact on Families and Communities.",
+            "Rehabilitation: Treatment-Based Alternatives to Incarceration.",
+            "Solutions: Shifting Towards Reform, Compassion, and Education.",
+            "Your Role: Advocating for Policy Changes and Supporting Alternatives."
+        ];
+
+        let currentSlide = 0;
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            document.querySelector('.content p').textContent = slides[currentSlide];
+        }
+    </script>
+</body>
+</html>

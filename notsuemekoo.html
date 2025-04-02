@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chibi Vocaloid TTS Sync</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: black; }
+        canvas { background-color: transparent; }
+    </style>
+</head>
+<body>
+    <canvas id="vocaloidCanvas" width="300" height="400"></canvas>
+    <button onclick="speakAndAnimate()">Speak and Animate</button>
+
+    <script>
+        const canvas = document.getElementById("vocaloidCanvas");
+        const ctx = canvas.getContext("2d");
+        let scale = 1;
+        let scalingUp = true;
+        let eyeBlinking = false;
+        let blinkTimer = 0;
+        let melodyIndex = 0;
+        
+        const melody = [
+            { text: "la", pitch: 1 }, 
+            { text: "la", pitch: 1.5 }, 
+            { text: "la", pitch: 0.8 }, 
+            { text: "doo", pitch: 1.2 },
+            { text: "bee", pitch: 1.4 },
+            { text: "da", pitch: 1 }
+        ];
+
+        function drawMouth(open) {
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            if (open) {
+                ctx.ellipse(150, 130, 15, 10, 0, 0, 2 * Math.PI);
+                ctx.fill();
+            } else {
+                ctx.arc(150, 130, 15, 0, Math.PI);
+                ctx.stroke();
+            }
+        }
+
+        function drawEyebrows() {
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(115, 75);
+            ctx.lineTo(135, 65);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(185, 75);
+            ctx.lineTo(165, 65);
+            ctx.stroke();
+        }
+
+        function drawCharacter(s, mouthOpen) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.scale(s, s);
+
+            ctx.fillStyle = "pink";
+            ctx.beginPath();
+            ctx.arc(150, 100, 70, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.fillStyle = "cyan";
+            let hairOffsetX = Math.sin(blinkTimer / 30) * 10;
+            let hairOffsetY = Math.cos(blinkTimer / 30) * 10;
+            ctx.beginPath();
+            ctx.moveTo(100 + hairOffsetX, 50);
+            ctx.lineTo(150, 0);
+            ctx.lineTo(200 + hairOffsetY, 50);
+            ctx.fill();
+
+            ctx.fillStyle = "blue";
+            ctx.beginPath();
+            if (eyeBlinking) {
+                ctx.rect(120, 90, 20, 10);
+                ctx.rect(160, 90, 20, 10);
+            } else {
+                ctx.arc(130, 90, 10, 0, 2 * Math.PI);
+                ctx.arc(170, 90, 10, 0, 2 * Math.PI);
+            }
+            ctx.fill();
+
+            drawMouth(mouthOpen);
+            drawEyebrows();
+
+            ctx.fillStyle = "orange";
+            ctx.beginPath();
+            ctx.moveTo(120, 170);
+            ctx.lineTo(180, 170);
+            ctx.lineTo(150, 230);
+            ctx.fill();
+
+            ctx.fillStyle = "green";
+            ctx.fillRect(80, 170, 20, 40);
+            ctx.fillRect(200, 170, 20, 40);
+
+            ctx.fillStyle = "purple";
+            ctx.beginPath();
+            ctx.moveTo(70, 210);
+            ctx.lineTo(90, 210);
+            ctx.lineTo(80, 230);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(210, 210);
+            ctx.lineTo(230, 210);
+            ctx.lineTo(220, 230);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function animate() {
+            if (scalingUp) {
+                scale += 0.01;
+                if (scale > 1.2) scalingUp = false;
+            } else {
+                scale -= 0.01;
+                if (scale < 1) scalingUp = true;
+            }
+
+            blinkTimer++;
+            if (blinkTimer % 100 === 0) {
+                eyeBlinking = !eyeBlinking;
+            }
+
+            drawCharacter(scale, false); // Default mouth closed
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        function speakAndAnimate() {
+            const synth = window.speechSynthesis;
+            let currentMelody = melody[melodyIndex];
+            const utterance = new SpeechSynthesisUtterance(currentMelody.text);
+
+            // Set pitch for melody
+            utterance.pitch = currentMelody.pitch;
+
+            utterance.onboundary = (event) => {
+                if (event.name === "word") {
+                    drawCharacter(scale, true); // Mouth open on word boundary
+                    setTimeout(() => {
+                        drawCharacter(scale, false); // Mouth close after a short delay
+                    }, 200);
+                }
+            };
+
+            utterance.onend = () => {
+                melodyIndex = (melodyIndex + 1) % melody.length; // Loop the melody
+                speakAndAnimate(); // Recursively call to continue melody
+            };
+
+            synth.speak(utterance);
+        }
+    </script>
+</body>
+</html>

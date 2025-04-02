@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manic Monday Meeting Avoidance Guide</title>
+    <style>
+        /* General Styling */
+        body {
+            background: radial-gradient(circle, #041727, #020c16);
+            color: #0ff;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Holographic Window */
+        .holo-window {
+            width: 80vw;
+            height: 70vh; /* Increased height to accommodate more content */
+            margin: 10vh auto;
+            padding: 20px;
+            background: rgba(10, 30, 50, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow-y: auto; /* Added scroll for longer content */
+        }
+
+        .holo-window::before { /*scanlines*/
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 255, 255, 0.1), transparent 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Light Pipes */
+        .light-pipe {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff, transparent);
+            animation: pulse 2s infinite linear;
+        }
+
+        .pipe-top { top: 0; }
+        .pipe-bottom { bottom: 0; }
+        .pipe-left, .pipe-right {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #0ff, transparent);
+        }
+        .pipe-left { left: 0; }
+        .pipe-right { right: 0; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Enhanced Glitch Effect */
+        .glitch {
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            width: 100%;
+            clip: rect(0, 100%, 0, 0);
+        }
+
+        .glitch::before {
+            top: -2px;
+            left: -2px;
+            color: #ff00ff;
+            animation: glitch 0.2s infinite linear alternate-reverse;
+            transform: skew(-2deg);
+        }
+
+        .glitch::after {
+            top: 2px;
+            left: 2px;
+            color: #00ffff;
+            animation: glitch 0.2s infinite linear alternate;
+            transform: skew(2deg);
+        }
+
+        @keyframes glitch {
+            0% { clip: rect(2px, 9999px, 8px, 0); }
+            10% { clip: rect(4px, 9999px, 2px, 0); }
+            20% { clip: rect(6px, 9999px, 4px, 0); }
+            30% { clip: rect(8px, 9999px, 6px, 0); }
+            40% { clip: rect(2px, 9999px, 6px, 0); }
+            50% { clip: rect(4px, 9999px, 8px, 0); }
+            60% { clip: rect(6px, 9999px, 2px, 0); }
+            70% { clip: rect(8px, 9999px, 4px, 0); }
+            80% { clip: rect(2px, 9999px, 4px, 0); }
+            90% { clip: rect(4px, 9999px, 6px, 0); }
+            100% { clip: rect(6px, 9999px, 8px, 0); }
+        }
+
+        /* Interactive Elements */
+        .content {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0ff;
+            color: #041727;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #00aaff;
+        }
+
+        .problem {
+            font-weight: bold;
+            color: #ff00ff;
+        }
+
+        .solution {
+            font-style: italic;
+            color: #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="holo-window">
+        <div class="light-pipe pipe-top"></div>
+        <div class="light-pipe pipe-bottom"></div>
+        <div class="light-pipe pipe-left"></div>
+        <div class="light-pipe pipe-right"></div>
+
+        <h1 class="glitch" data-text="The Meeting That Could Have Been an Email">The Meeting That Could Have Been an Email</h1>
+
+        <div class="content">
+            <p></p>
+            <div class="button" onclick="nextSlide()">Next</div>
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+            `Welcome to Monday... <br><br> <span class="problem">The Issue: Brad broke the Keurig. Again.</span> <br><br> <span class="solution">Proposed Email Subject: Urgent - Coffee Situation Update & Vending Machine Demo Today!</span>`,
+
+            `Good morning, team! <br><br> <span class="problem">The Issue: Someone left their passive-aggressive note about the overflowing sink.</span> <br><br> <span class="solution">Proposed Email Subject: Gentle Reminder: Let's Keep the Kitchen Sparkling!</span>`,
+
+            `Happy Monday! <br><br> <span class="problem">The Issue: The office printer is blinking red. Again. No one knows how to fix it.</span> <br><br> <span class="solution">Proposed Email Subject: Printer Offline - IT Investigating (Please Hold Your Print Jobs).</span>`,
+
+            `Rise and shine! <br><br> <span class="problem">The Issue: The thermostat is set to a temperature that pleases absolutely no one.</span> <br><br> <span class="solution">Proposed Email Subject: Thermostat Poll - Let's Find Our Comfort Zone (Quick Vote Needed!).</span>`,
+
+            `Hope you had a great weekend! <br><br> <span class="problem">The Issue: Brenda from accounting is having another very loud phone call right next to your desk.</span> <br><br> <span class="solution">Proposed Email Subject: Friendly Reminder: Let's Be Mindful of Noise Levels in Open Workspaces.</span>`,
+
+            `Greetings! <br><br> <span class="problem">The Issue: The supply closet looks like it was ransacked by squirrels. Where did all the pens go?</span> <br><br> <span class="solution">Proposed Email Subject: Missing Office Supplies - Inventory Check & Requisition Form Link.</span>`,
+
+            `Another week, another adventure! <br><br> <span class="problem">The Issue: The elevator is making that concerning rattling noise again.</span> <br><br> <span class="solution">Proposed Email Subject: Elevator Temporarily Out of Service - Please Use Stairs (Safety First!).</span>`,
+
+            `Let's get this week started! <br><br> <span class="problem">The Issue: Trying to book a meeting room is like trying to win the lottery.</span> <br><br> <span class="solution">Proposed Email Subject: Meeting Room Booking System Update & Availability Tips.</span>`,
+
+            `Before we meet... <br><br> <span class="problem">The Issue: Did we really need a meeting to discuss the agenda for the *next* meeting?</span> <br><br> <span class="solution">Proposed Email Subject: Proposed Agenda for Next Meeting - Your Feedback Welcome! (No Meeting Required Today!).</span>`,
+
+            `In conclusion... <br><br> <span class="problem">The Real Issue: This entire presentation could have been an email.</span> <br><br> <span class="solution">Proposed Email Subject: Avoiding Unnecessary Meetings - A Humorous Guide.</span>`
+        ];
+
+        let currentSlide = 0;
+        const contentDiv = document.querySelector('.content p');
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            contentDiv.innerHTML = slides[currentSlide];
+        }
+
+        contentDiv.innerHTML = slides[0];
+    </script>
+</body>
+</html>
